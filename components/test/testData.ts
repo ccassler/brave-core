@@ -347,7 +347,8 @@ export const initialState = deepFreeze({
     currentWindowId: -1,
     tabs: {},
     windows: {},
-    persistentData: { isFirstAccess: true, statsBadgeVisible: true }
+    persistentData: { isFirstAccess: true },
+    settingsData: { showAdvancedView: false, statsBadgeVisible: true }
   }
 })
 
