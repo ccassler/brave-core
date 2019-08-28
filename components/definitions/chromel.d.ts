@@ -231,10 +231,6 @@ declare namespace chrome.braveShields {
     showAdvancedView: boolean
     statsBadgeVisible: boolean
   }
-  type BraveShieldsSetViewPreferencesData = {
-    showAdvancedView?: boolean
-    statsBadgeVisible?: boolean
-  }
 }
 
 declare namespace chrome.braveWallet {
