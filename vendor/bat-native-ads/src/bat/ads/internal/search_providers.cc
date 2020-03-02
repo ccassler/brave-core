@@ -17,15 +17,15 @@ SearchProviders::~SearchProviders() = default;
 
 bool SearchProviders::IsSearchEngine(
     const std::string& url) {
-  auto visited_url = GURL(url);
+  GURL visited_url = GURL(url);
   if (!visited_url.has_host()) {
     return false;
   }
 
-  auto is_a_search = false;
+  bool is_a_search = false;
 
   for (const auto& search_provider : _search_providers) {
-    auto search_provider_hostname = GURL(search_provider.hostname);
+    GURL search_provider_hostname = GURL(search_provider.hostname);
     if (!search_provider_hostname.is_valid()) {
       continue;
     }
@@ -51,15 +51,15 @@ bool SearchProviders::IsSearchEngine(
 
 std::string SearchProviders::ExtractSearchQueryKeywords(
     const std::string& url) {
-  auto visited_url = GURL(url);
-  if (!visited_url.has_host()) {
+  GURL visited_url = GURL(url);
+  if (!visited_url.is_valid()) {
     return "";
   }
 
   std::string search_query_keywords = "";
 
   for (const auto& search_provider : _search_providers) {
-    auto search_provider_hostname = GURL(search_provider.hostname);
+    GURL search_provider_hostname = GURL(search_provider.hostname);
     if (!search_provider_hostname.is_valid()) {
       continue;
     }

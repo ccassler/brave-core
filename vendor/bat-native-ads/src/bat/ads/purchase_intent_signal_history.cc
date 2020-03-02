@@ -29,7 +29,7 @@ bool PurchaseIntentSignalHistory::operator!=(
   return !(*this == rhs);
 }
 
-const std::string PurchaseIntentSignalHistory::ToJson() const {
+std::string PurchaseIntentSignalHistory::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;

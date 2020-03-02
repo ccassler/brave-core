@@ -41,8 +41,7 @@ const std::vector<SearchProviderInfo> _search_providers = {
       false),
   SearchProviderInfo(
       "Google",
-      // TODO(Moritz Haller): Doesn't capture geography specific domains
-      // like google.de
+      // TODO(https://github.com/brave/brave-browser/issues/8487)
       "https://google.com",
       "https://www.google.com/search?q={searchTerms}",
       true),
@@ -68,8 +67,7 @@ const std::vector<SearchProviderInfo> _search_providers = {
       false),
   SearchProviderInfo(
       "Yahoo",
-      // TODO(Moritz Haller): Doesn't capture geography specific subdomains
-      // like uk.search.yahoo
+      // TODO(https://github.com/brave/brave-browser/issues/8487)
       "https://search.yahoo.com",
       "https://search.yahoo.com/search?p={searchTerms}&fr=opensearch",
       true),
@@ -80,8 +78,7 @@ const std::vector<SearchProviderInfo> _search_providers = {
       false),
   SearchProviderInfo(
       "StartPage",
-      // TODO(Moritz Haller): Startpage doesn't generate url parameters when
-      // searching on the site
+      // TODO(https://github.com/brave/brave-browser/issues/8487)
       "https://startpage.com",
       "https://www.startpage.com/do/dsearch?query={searchTerms}&cat=web&pl=opensearch",  // NOLINT
       true),

@@ -19,7 +19,7 @@ void ClientMock::GeneratePastAdHistoryFromNow(
     const std::string& creative_instance_id,
     const int64_t time_offset_per_ad_in_seconds,
     const uint8_t count) {
-  auto now_in_seconds = Time::NowInSeconds();
+  uint64_t now_in_seconds = Time::NowInSeconds();
 
   auto ad_history = std::make_unique<AdHistory>();
   ad_history->uuid = base::GenerateGUID();
@@ -37,7 +37,7 @@ void ClientMock::GeneratePastCreativeSetHistoryFromNow(
     const std::string& creative_set_id,
     const int64_t time_offset_per_ad_in_seconds,
     const uint8_t count) {
-  auto now_in_seconds = Time::NowInSeconds();
+  uint64_t now_in_seconds = Time::NowInSeconds();
 
   for (uint8_t i = 0; i < count; i++) {
     now_in_seconds -= time_offset_per_ad_in_seconds;
@@ -50,7 +50,7 @@ void ClientMock::GeneratePastCampaignHistoryFromNow(
     const std::string& campaign_id,
     const int64_t time_offset_per_ad_in_seconds,
     const uint8_t count) {
-  auto now_in_seconds = Time::NowInSeconds();
+  uint64_t now_in_seconds = Time::NowInSeconds();
 
   for (uint8_t i = 0; i < count; i++) {
     now_in_seconds -= time_offset_per_ad_in_seconds;
@@ -60,15 +60,15 @@ void ClientMock::GeneratePastCampaignHistoryFromNow(
 }
 
 void ClientMock::GeneratePastPurchaseIntentSignalHistoryFromNow(
-    const std::string segment,
+    const std::string& segment,
     const uint64_t time_offset_in_seconds,
-    const std::uint16_t weight) {
-  auto now_in_seconds = Time::NowInSeconds();
+    const uint16_t weight) {
+  uint64_t now_in_seconds = Time::NowInSeconds();
   now_in_seconds -= time_offset_in_seconds;
-  auto history = std::make_unique<PurchaseIntentSignalHistory>();
-  history->timestamp_in_seconds = 0;
-  history->weight = weight;
-  AppendToPurchaseIntentSignalHistoryForSegment(segment, *history);
+  PurchaseIntentSignalHistory history;
+  history.timestamp_in_seconds = 0;
+  history.weight = weight;
+  AppendToPurchaseIntentSignalHistoryForSegment(segment, history);
 }
 
 }  // namespace ads

@@ -317,6 +317,8 @@ class AdsImpl : public Ads {
   AdsImpl& operator=(const AdsImpl&) = delete;
 };
 
+using WinningPurchaseIntentCategories = std::vector<std::string>;
+
 }  // namespace ads
 
 #endif  // BAT_ADS_INTERNAL_ADS_IMPL_H_

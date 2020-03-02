@@ -29,7 +29,6 @@ const int kWinningCategoryCountForServingAds = 3;
 // confirmation types
 const uint64_t kMaximumEntriesInAdsShownHistory = 7 * (20 * 4);
 
-// TODO(Moritz Haller): Adjust history per segment cap if too generous
 const uint64_t kMaximumEntriesPerSegmentInPurchaseIntentSignalHistory = 100;
 
 const uint64_t kDebugOneHourInSeconds = 25;

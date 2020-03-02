@@ -23,14 +23,14 @@ using ::testing::_;
 
 // npm run test -- brave_unit_tests --filter=AdsPurchaseIntentClassifier*
 
-namespace {
+namespace ads {
 
 const std::vector<std::string> audi_a6_segments = {
   "automotive purchase intent by make-audi",
   "automotive purchase intent by category-mid luxury car"
 };
 
-const std::vector<std::string> no_segments = {};
+const std::vector<std::string> no_segments;
 
 struct TestTriplets {
   std::string url;
@@ -58,18 +58,14 @@ std::vector<TestTriplets> kTestSearchQueries = {
   {"https://www.ecosia.org/search?q=audi+a6+review",
       audi_a6_segments, 2},
   {"https://www.kbb.com/bmw/6-series/2017/styles/?intent=trade-in-sell&mileage=100000",  // NOLINT
-      ads::_segments, 1},
+      _segments, 1},
   {"https://www.cars.com/for-sale/searchresults.action/?mkId=20050&rd=10&searchSource=QUICK_FORM&zc=10001",  // NOLINT
-      ads::_segments, 1},
+      _segments, 1},
   {"https://www.google.com/search?source=hp&ei=lY5BXpenN-qUlwSd7bvICQ&q=foo+bar&oq=foo+bar&gs_l=psy-ab.3..0l10.1452.2016..2109...0.0..0.57.381.7......0....1..gws-wiz.......0i131j0i10.CeBo7A4BiSM&ved=0ahUKEwjXxbuPvcfnAhVqyoUKHZ32DpkQ4dUDCAg&uact=5",  // NOLINT
       no_segments, 0},
   {"https://creators.brave.com/",
       no_segments, 0},
 };
-
-}  // namespace
-
-namespace ads {
 
 class AdsPurchaseIntentClassifierTest : public ::testing::Test {
  protected:
@@ -94,9 +90,8 @@ class AdsPurchaseIntentClassifierTest : public ::testing::Test {
     // each test)
     purchase_intent_classifier_ = std::make_unique<PurchaseIntentClassifier>(
         kPurchaseIntentSignalLevel, kPurchaseIntentClassificationThreshold,
-        kPurchaseIntentSignalDecayTimeWindow);
+            kPurchaseIntentSignalDecayTimeWindow);
 
-    // TODO(Moritz Haller): Dynamically generate histories
     auto now = Time::NowInSeconds();
     auto days = base::Time::kSecondsPerHour * base::Time::kHoursPerDay;
 
@@ -157,12 +152,9 @@ class AdsPurchaseIntentClassifierTest : public ::testing::Test {
 
   // Objects declared here can be used by all tests in the test case
   std::unique_ptr<PurchaseIntentClassifier> purchase_intent_classifier_;
-  std::map<std::string, std::deque<PurchaseIntentSignalHistory>>
-      histories_;
-  std::map<std::string, std::deque<PurchaseIntentSignalHistory>>
-      histories_short_;
-  std::map<std::string, std::deque<PurchaseIntentSignalHistory>>
-      histories_empty_;
+  PurchaseIntentSignalHistoriesPerSegment histories_;
+  PurchaseIntentSignalHistoriesPerSegment histories_short_;
+  PurchaseIntentSignalHistoriesPerSegment histories_empty_;
 };
 
 TEST_F(AdsPurchaseIntentClassifierTest, ExtractsPurchaseIntentSignal) {
@@ -190,13 +182,13 @@ TEST_F(AdsPurchaseIntentClassifierTest, GetsWinningCategoriesWithEmptyHistory) {
       histories_empty_, 3);
 
   // Assert
-  std::vector<std::string> gold_categories = {};
+  std::vector<std::string> gold_categories;
   EXPECT_EQ(gold_categories, winning_categories);
 }
 
 TEST_F(AdsPurchaseIntentClassifierTest, GetsWinningCategoriesWithShortHistory) {
   // Arrange
-  std::map<std::string, std::deque<PurchaseIntentSignalHistory>> histories = {};
+  std::map<std::string, std::deque<PurchaseIntentSignalHistory>> histories;
 
   // Act
   auto winning_categories = purchase_intent_classifier_->GetWinningCategories(
@@ -213,10 +205,8 @@ TEST_F(AdsPurchaseIntentClassifierTest, GetsWinningCategories) {
   // Act
   auto winning_categories = purchase_intent_classifier_->GetWinningCategories(
       histories_, 3);
-  // std::vector<std::string> winning_categories = {};
 
   // Assert
-  // std::vector<std::string> gold_categories = {};
   std::vector<std::string> gold_categories = {"cat_5", "cat_1", "cat_2"};
   EXPECT_EQ(gold_categories, winning_categories);
 }

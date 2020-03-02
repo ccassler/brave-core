@@ -68,7 +68,7 @@ std::vector<std::string> Keywords::TransformIntoSetOfWords(
   RE2::GlobalReplace(&data, "\\s+", " ");
 
   std::for_each(data.begin(), data.end(), [](char & c) {
-    c = ::tolower(c);
+    c = base::ToLowerASCII(c);
   });
 
   std::stringstream sstream(data);

@@ -57,7 +57,7 @@ bool Uri::MatchesWildcard(
 std::string Uri::GetValueForKeyInQuery(
     const std::string& url,
     const std::string& key) {
-  auto gurl = GURL(url);
+  GURL gurl = GURL(url);
   std::string query_value;
 
   if (!net::GetValueForKeyInQuery(gurl, key, &query_value)) {

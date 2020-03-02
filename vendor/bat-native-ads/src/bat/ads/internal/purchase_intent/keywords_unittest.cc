@@ -30,7 +30,7 @@ const std::vector<std::string> kAudiA6Segments = {
   "automotive purchase intent by category-mid luxury car"
 };
 
-const std::vector<std::string> kNoSegments = {};
+const std::vector<std::string> kNoSegments;
 
 struct TestTriplet {
   std::string keywords;

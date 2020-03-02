@@ -4,6 +4,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "bat/ads/internal/purchase_intent/funnel_sites.h"
+#include "net/base/registry_controlled_domains/registry_controlled_domain.h"
 
 #include "url/gurl.h"
 
@@ -27,7 +28,8 @@ FunnelSiteInfo FunnelSites::MatchFunnelSite(
       continue;
     }
 
-    if (visited_url.DomainIs(funnel_site_hostname.host_piece())) {
+    if (SameDomainOrHost(visited_url, funnel_site_hostname,
+        net::registry_controlled_domains::EXCLUDE_PRIVATE_REGISTRIES)) {
       return funnel_site;
     }
   }

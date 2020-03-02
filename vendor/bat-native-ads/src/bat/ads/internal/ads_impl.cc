@@ -734,7 +734,6 @@ void AdsImpl::ExtractPurchaseIntentSignal(const std::string& url) {
     return;
   }
 
-  // TODO(Terry Mancey): might fail TLD+1
   if (!TestSearchState(url) &&
       helper::Uri::MatchesDomainOrHost(url, previous_tab_url_)) {
     return;
@@ -749,7 +748,7 @@ void AdsImpl::ExtractPurchaseIntentSignal(const std::string& url) {
   }
 
   GeneratePurchaseIntentSignalHistoryEntry(purchase_intent_signal);
-  BLOG(INFO) << "Intent signal extracted for " << url;
+  BLOG(INFO) << "Purchase intent signal extracted for " << url;
 }
 
 void AdsImpl::GeneratePurchaseIntentSignalHistoryEntry(
@@ -987,7 +986,7 @@ AdsImpl::GetPageScoreCache() const {
   return page_score_cache_;
 }
 
-std::vector<std::string> AdsImpl::GetWinningPurchaseIntentCategories() {
+WinningPurchaseIntentCategories AdsImpl::GetWinningPurchaseIntentCategories() {
   auto purchase_intent_signal_history =
       client_->GetPurchaseIntentSignalHistory();
   if (purchase_intent_signal_history.size() == 0) {
@@ -1169,7 +1168,8 @@ std::vector<std::string> AdsImpl::GetCategoriesToServeAd() {
   auto contextual_categories = GetWinningCategories();
   categories.insert(categories.end(),
       contextual_categories.begin(), contextual_categories.end());
-  auto purchase_intent_categories = GetWinningPurchaseIntentCategories();
+  WinningPurchaseIntentCategories purchase_intent_categories =
+      GetWinningPurchaseIntentCategories();
   categories.insert(categories.end(),
       purchase_intent_categories.begin(), purchase_intent_categories.end());
   return categories;
@@ -1215,9 +1215,7 @@ void AdsImpl::OnServeAdNotificationFromCategories(
     BLOG(INFO) << "  " << category;
   }
 
-  // TODO(Moritz Haller): Not serve from parent categories when targeting on
-  // intent: would pick any from e.g. "automotive purchase intent by make"
-  // achieveing the opposite of what an advertiser intends to do?
+  // TODO(https://github.com/brave/brave-browser/issues/8486)
   if (ServeAdNotificationFromParentCategories(categories)) {
     return;
   }

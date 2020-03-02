@@ -60,6 +60,9 @@ struct ClientState {
       purchase_intent_signal_history;
 };
 
+using PurchaseIntentSignalHistoriesPerSegment =
+    std::map<std::string, std::deque<PurchaseIntentSignalHistory>>;
+
 }  // namespace ads
 
 #endif  // BAT_ADS_INTERNAL_CLIENT_STATE_H_

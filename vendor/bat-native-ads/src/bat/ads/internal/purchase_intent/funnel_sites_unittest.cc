@@ -18,23 +18,19 @@ using ::testing::_;
 
 // npm run test -- brave_unit_tests --filter=AdsPurchaseIntentFunnelSites*
 
-namespace {
+namespace ads {
 
 struct TestTriplet {
   std::string url;
-  ads::FunnelSiteInfo funnel_site_info;
+  FunnelSiteInfo funnel_site_info;
 };
 
 const std::vector<TestTriplet> kTestUrls = {
-  {"http://www.carmax.com", ads::_automotive_funnel_sites.at(1)},
-  {"http://www.carmax.com/foobar", ads::_automotive_funnel_sites.at(1)},
-  {"http://carmax.com", ads::_automotive_funnel_sites.at(1)},
-  {"http://brave.com/foobar", ads::FunnelSiteInfo()},
+  {"http://www.carmax.com", _automotive_funnel_sites.at(1)},
+  {"http://www.carmax.com/foobar", _automotive_funnel_sites.at(1)},
+  {"http://carmax.com", _automotive_funnel_sites.at(1)},
+  {"http://brave.com/foobar", FunnelSiteInfo()},
 };
-
-}  // namespace
-
-namespace ads {
 
 class AdsPurchaseIntentFunnelSitesTest : public ::testing::Test {
  protected:

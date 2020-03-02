@@ -26,7 +26,7 @@ struct ADS_EXPORT PurchaseIntentSignalHistory {
   bool operator!=(
       const PurchaseIntentSignalHistory& rhs) const;
 
-  const std::string ToJson() const;
+  std::string ToJson() const;
   Result FromJson(
       const std::string& json,
       std::string* error_description = nullptr);
