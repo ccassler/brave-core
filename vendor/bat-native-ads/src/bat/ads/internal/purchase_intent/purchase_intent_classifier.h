@@ -20,7 +20,7 @@ namespace ads {
 
 class PurchaseIntentClassifier {
  public:
-  explicit PurchaseIntentClassifier(
+  PurchaseIntentClassifier(
       const uint16_t signal_level,
       const uint16_t classification_threshold,
       const uint64_t signal_decay_time_window);
@@ -31,7 +31,7 @@ class PurchaseIntentClassifier {
       const std::string& url);
 
   std::vector<std::string> GetWinningCategories(
-      const std::map<std::string, std::deque<PurchaseIntentSignalHistory>>&
+      const PurchaseIntentSignalHistoriesPerSegment&
       history, const uint8_t max_segments);
 
  private:
@@ -42,6 +42,8 @@ class PurchaseIntentClassifier {
   const uint16_t classification_threshold_;
   const uint64_t signal_decay_time_window_;
 };
+
+using WinningPurchaseIntentCategories = std::vector<std::string>;
 
 }  // namespace ads
 

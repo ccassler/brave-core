@@ -8,6 +8,8 @@
 
 #include <stdint.h>
 #include <string>
+#include <map>
+#include <deque>
 
 #include "bat/ads/export.h"
 #include "bat/ads/result.h"
@@ -34,6 +36,9 @@ struct ADS_EXPORT PurchaseIntentSignalHistory {
   uint64_t timestamp_in_seconds;
   uint8_t weight = 0;
 };
+
+using PurchaseIntentSignalHistoriesPerSegment =
+    std::map<std::string, std::deque<PurchaseIntentSignalHistory>>;
 
 }  // namespace ads
 

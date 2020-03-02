@@ -141,8 +141,6 @@ class AdsPurchaseIntentClassifierTest : public ::testing::Test {
       {"cat_1", {p1, p4}},
       {"cat_2", {p2, p3}}
     };
-
-    histories_empty_ = {};
   }
 
   void TearDown() override {

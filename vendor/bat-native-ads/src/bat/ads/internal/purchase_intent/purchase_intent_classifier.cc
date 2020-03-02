@@ -20,14 +20,15 @@ PurchaseIntentClassifier::PurchaseIntentClassifier(
     const uint16_t classification_threshold,
     const uint64_t signal_decay_time_window)
     : signal_level_(signal_level),
-    classification_threshold_(classification_threshold),
-    signal_decay_time_window_(signal_decay_time_window) {
+      classification_threshold_(classification_threshold),
+      signal_decay_time_window_(signal_decay_time_window) {
 }
 
 PurchaseIntentClassifier::~PurchaseIntentClassifier() = default;
 
 PurchaseIntentSignalInfo PurchaseIntentClassifier::ExtractIntentSignal(
     const std::string& url) {
+  PurchaseIntentSignalInfo signal_info;
   std::string search_query = SearchProviders::ExtractSearchQueryKeywords(url);
 
   if (!search_query.empty()) {
@@ -36,25 +37,31 @@ PurchaseIntentSignalInfo PurchaseIntentClassifier::ExtractIntentSignal(
     if (!kw_segments.empty()) {
       uint8_t kw_weight = Keywords::GetFunnelWeight(search_query);
 
-      return PurchaseIntentSignalInfo(Time::NowInSeconds(),
-          kw_segments, kw_weight);
+      signal_info.timestamp_in_seconds = Time::NowInSeconds();
+      signal_info.segments = kw_segments;
+      signal_info.weight = kw_weight;
+      return signal_info;
     }
   } else {
     FunnelSiteInfo funnel_site = FunnelSites::MatchFunnelSite(url);
 
     if (!funnel_site.url_netloc.empty()) {
-      return PurchaseIntentSignalInfo(Time::NowInSeconds(),
-          funnel_site.segments, funnel_site.weight);
+      signal_info.timestamp_in_seconds = Time::NowInSeconds();
+      signal_info.segments = funnel_site.segments;
+      signal_info.weight = funnel_site.weight;
+      return signal_info;
     }
   }
-  return PurchaseIntentSignalInfo();
+
+  return signal_info;
 }
 
-std::vector<std::string> PurchaseIntentClassifier::GetWinningCategories(
-    const std::map<std::string, std::deque<PurchaseIntentSignalHistory>>&
-    history, uint8_t max_segments) {
+WinningPurchaseIntentCategories PurchaseIntentClassifier::GetWinningCategories(  // NOLINT
+    const PurchaseIntentSignalHistoriesPerSegment& history,
+    uint8_t max_segments) {
+  WinningPurchaseIntentCategories winning_categories;
   if (history.empty()) {
-    return {};
+    return winning_categories;
   }
 
   if (max_segments < history.size()) {
@@ -71,7 +78,6 @@ std::vector<std::string> PurchaseIntentClassifier::GetWinningCategories(
     return lhs.second > rhs.second;
   });
 
-  std::vector<std::string> winning_categories;
   const std::vector<std::pair<std::string, uint8_t>> top_scores(
       scores.begin(), scores.begin() + scores.size());
   for (const auto& scores_el : top_scores) {
@@ -79,6 +85,7 @@ std::vector<std::string> PurchaseIntentClassifier::GetWinningCategories(
       winning_categories.push_back(scores_el.first);
     }
   }
+
   return winning_categories;
 }
 

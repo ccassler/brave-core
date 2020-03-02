@@ -41,6 +41,8 @@
 #include "bat/ads/internal/frequency_capping/permission_rules/ads_per_day_frequency_cap.h"
 #include "bat/ads/internal/frequency_capping/permission_rules/ads_per_hour_frequency_cap.h"
 #include "bat/ads/internal/sorts/ads_history_sort_factory.h"
+#include "bat/ads/internal/purchase_intent/purchase_intent_signal_info.h"
+#include "bat/ads/internal/purchase_intent/purchase_intent_classifier.h"
 
 #include "base/guid.h"
 #include "base/rand_util.h"

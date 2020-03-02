@@ -24,7 +24,6 @@
 #include "bat/ads/internal/ad_conversions.h"
 #include "bat/ads/internal/ad_notification_result_type.h"
 #include "bat/ads/internal/ad_notifications.h"
-#include "bat/ads/internal/purchase_intent/purchase_intent_classifier.h"
 #include "bat/usermodel/user_model.h"
 
 namespace ads {
@@ -38,6 +37,7 @@ class FrequencyCapping;
 class ExclusionRule;
 class PermissionRule;
 class PurchaseIntentClassifier;
+struct PurchaseIntentSignalInfo;
 
 class AdsImpl : public Ads {
  public:
@@ -316,8 +316,6 @@ class AdsImpl : public Ads {
   AdsImpl(const AdsImpl&) = delete;
   AdsImpl& operator=(const AdsImpl&) = delete;
 };
-
-using WinningPurchaseIntentCategories = std::vector<std::string>;
 
 }  // namespace ads
 
