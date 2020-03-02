@@ -23,7 +23,7 @@ struct PurchaseIntentSignalInfo {
       const PurchaseIntentSignalInfo& info);
   ~PurchaseIntentSignalInfo();
 
-  uint64_t timestamp_in_seconds;
+  uint64_t timestamp_in_seconds = 0;
   std::vector<std::string> segments;
   uint16_t weight = 0;
 };

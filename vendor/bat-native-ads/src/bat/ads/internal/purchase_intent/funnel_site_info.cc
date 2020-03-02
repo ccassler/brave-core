@@ -22,10 +22,7 @@ FunnelSiteInfo::FunnelSiteInfo(
       weight(weight) {}
 
 FunnelSiteInfo::FunnelSiteInfo(
-    const FunnelSiteInfo& info)
-    : segments(info.segments),
-      url_netloc(info.url_netloc),
-      weight(info.weight) {}
+    const FunnelSiteInfo& info) = default;
 
 FunnelSiteInfo::~FunnelSiteInfo() = default;
 

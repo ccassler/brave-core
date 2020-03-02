@@ -16,9 +16,7 @@ SegmentKeywordInfo::SegmentKeywordInfo(
       keywords(keywords) {}
 
 SegmentKeywordInfo::SegmentKeywordInfo(
-    const SegmentKeywordInfo& info)
-    : segments(info.segments),
-      keywords(info.keywords) {}
+    const SegmentKeywordInfo& info) = default;
 
 SegmentKeywordInfo::~SegmentKeywordInfo() = default;
 

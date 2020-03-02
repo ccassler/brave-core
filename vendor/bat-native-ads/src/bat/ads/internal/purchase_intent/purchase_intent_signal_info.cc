@@ -22,10 +22,7 @@ PurchaseIntentSignalInfo::PurchaseIntentSignalInfo(
       weight(weight) {}
 
 PurchaseIntentSignalInfo::PurchaseIntentSignalInfo(
-    const PurchaseIntentSignalInfo& info)
-    : timestamp_in_seconds(info.timestamp_in_seconds),
-    segments(info.segments),
-    weight(info.weight) {}
+    const PurchaseIntentSignalInfo& info) = default;
 
 PurchaseIntentSignalInfo::~PurchaseIntentSignalInfo() = default;
 
